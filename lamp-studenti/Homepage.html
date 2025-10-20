@@ -19,16 +19,24 @@
 
     .gallery-outer{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px}
     .gallery{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+      /* layout orizontal: fără wrap, scroll horizontal */
+      display:flex;
+      flex-wrap:nowrap;
       gap:12px;
       align-items:stretch;
-      max-height:60vh; /* allow vertical scroll if many rows */
-      overflow:auto;
-      padding-right:8px;
+      max-height:60vh;
+      overflow-x:auto;
+      overflow-y:hidden; /* elimină bara verticală */
+      padding-right:12px;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none; /* Firefox */
+      -ms-overflow-style:none; /* IE 10+ */
     }
+    /* ascunde scrollbar-ul WebKit dacă vrei (opțional) */
+    .gallery::-webkit-scrollbar{height:8px; background:transparent}
+    .gallery::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:8px}
 
-    .card{background:#071226;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(2,6,23,0.6);cursor:pointer;transition:transform .18s ease}
+    .card{background:#071226;border-radius:10px;overflow:hidden;box-shadow:0 4px 18px rgba(2,6,23,0.6);cursor:pointer;transition:transform .18s ease; flex:0 0 220px}
     .card:hover{transform:translateY(-6px)}
     .card img{display:block;width:100%;height:140px;object-fit:cover}
     .meta{padding:8px 10px}
@@ -39,7 +47,7 @@
       position:absolute;right:12px;top:50%;transform:translateY(-50%);
       width:56px;height:56px;border-radius:28px;display:flex;align-items:center;justify-content:center;
       background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);
-      box-shadow:0 6px 20px rgba(8,12,20,0.6);cursor:pointer;backdrop-filter:blur(4px)
+      box-shadow:0 6px 20px rgba(8,12,20,0.6);cursor:pointer;backdrop-filter:blur(4px);
     }
     .arrow-right:active{transform:translateY(-50%) scale(.98)}
     .arrow-right svg{width:20px;height:20px;fill:var(--accent)}
@@ -48,7 +56,7 @@
     @media (max-width:560px){
       .card img{height:110px}
       .arrow-right{width:48px;height:48px;right:8px}
-      .gallery{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+      .card{flex:0 0 160px}
     }
 
     /* hidden state for filtering */
@@ -76,16 +84,14 @@
 
     <div class="gallery-outer">
       <div id="gallery" class="gallery" tabindex="0" aria-live="polite">
-        <!-- images: each .card has data-category and an id for navigation -->
-        <!-- using picsum.photos for placeholder images -->
-
+        <!-- images: fiecare .card conține img + meta -->
         <article class="card" data-category="natura" id="img1" tabindex="0">
           <img loading="lazy" src="https://picsum.photos/id/1018/600/400" alt="Peisaj montan">
           <div class="meta"><strong>Peisaj montan</strong><small>Natură</small></div>
         </article>
 
         <article class="card" data-category="orase" id="img2" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1011/600/400" alt="Clădiri în oraș">
+          <img loading="lazy" src="OrasVechi1.png" alt="Clădiri în oraș">
           <div class="meta"><strong>Oraș vechi</strong><small>Orașe</small></div>
         </article>
 
@@ -100,7 +106,7 @@
         </article>
 
         <article class="card" data-category="natura" id="img5" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1056/600/400" alt="Râu într-o pădure">
+          <img loading="lazy" src="RauInPadure1.jpg" alt="Râu într-o pădure">
           <div class="meta"><strong>Râu în pădure</strong><small>Natură</small></div>
         </article>
 
@@ -109,26 +115,30 @@
           <div class="meta"><strong>Skyline modern</strong><small>Orașe</small></div>
         </article>
 
-        <article class="card" data-category="portrete" id="img7" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1001/600/400" alt="Portret bărbat">
-          <div class="meta"><strong>Privire</strong><small>Portrete</small></div>
+        <article class="card" data-category="natura" id="img7" tabindex="0">
+          <img loading="lazy" src="Plaja1.jpg" alt="Peisaj de plaja">
+          <div class="meta"><strong>Plaja</strong><small>Natură</small></div>
         </article>
 
         <article class="card" data-category="abstract" id="img8" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1062/600/400" alt="Forme colorate">
+          <img loading="lazy" src="FormaAbstracta1.jpg" alt="Forme colorate">
           <div class="meta"><strong>Forme și texturi</strong><small>Abstract</small></div>
         </article>
 
         <article class="card" data-category="natura" id="img9" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1043/600/400" alt="Cascadă">
+          <img loading="lazy" src="Cascada1.jpg" alt="Cascadă">
           <div class="meta"><strong>Cascadă</strong><small>Natură</small></div>
         </article>
 
         <article class="card" data-category="orase" id="img10" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1027/600/400" alt="Stradă pietonală">
+          <img loading="lazy" src="StradaVeche1.jpg" alt="Stradă pietonală">
           <div class="meta"><strong>Stradă veche</strong><small>Orașe</small></div>
         </article>
 
+        <article class="card" data-category="natura" id="img11" tabindex="0">
+          <img loading="lazy" src="https://picsum.photos/id/1012/600/400" alt="Pădure">
+          <div class="meta"><strong>Pădure liniștită</strong><small>Natură</small></div>
+        </article>
       </div>
 
       <button id="nextBtn" class="arrow-right" aria-label="Arată următoarea poză">
@@ -166,17 +176,22 @@
         const visible = Array.from(gallery.querySelectorAll('.card:not(.hidden)'));
         if(visible.length===0) return;
 
-        // find the card whose bounding rect is closest to left edge of gallery
         const gRect = gallery.getBoundingClientRect();
-        // prefer card which is partially visible from left to right
+        // find first card whose left edge is >= gallery left - small epsilon
         let index = visible.findIndex(card=>{
           const r = card.getBoundingClientRect();
-          return r.left >= gRect.left - 1; // first card whose left is inside or right of gallery left
+          return r.left >= gRect.left + 2;
         });
+        if(index === -1){
+          // if none found (all fully left), pick the first partially/fully visible from left
+          index = visible.findIndex(card=>{
+            const r = card.getBoundingClientRect();
+            return r.right > gRect.left + 2;
+          });
+        }
         if(index === -1) index = 0;
-        let targetIndex = Math.min(index+1, visible.length-1);
+        const targetIndex = Math.min(index+1, visible.length-1);
         visible[targetIndex].scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'});
-        // for keyboard focus accessibility
         visible[targetIndex].focus();
       }
 
@@ -193,20 +208,25 @@
       gallery.addEventListener('click', (e)=>{
         const card = e.target.closest('.card');
         if(!card) return;
-        openLightbox(card.querySelector('img').src, card.querySelector('.meta strong').textContent);
+        const img = card.querySelector('img');
+        const titleEl = card.querySelector('.meta strong');
+        openLightbox(img?.src || '', titleEl?.textContent || '');
       });
 
       function openLightbox(src, title){
         const overlay = document.createElement('div');
         overlay.style.position='fixed';overlay.style.inset=0;overlay.style.background='rgba(3,7,14,0.8)';overlay.style.display='flex';overlay.style.alignItems='center';overlay.style.justifyContent='center';overlay.style.zIndex=9999;
-        overlay.innerHTML = `\n          <div style=\"max-width:90vw;max-height:90vh;padding:10px;\">\n            <img src=\"${src}\" style=\"max-width:100%;max-height:80vh;border-radius:8px;display:block;\">\n            <div style=\"color:var(--muted);text-align:center;margin-top:8px\">${title}</div>\n          </div>`;
+        overlay.innerHTML = `
+          <div style="max-width:90vw;max-height:90vh;padding:10px;">
+            <img src="${src}" style="max-width:100%;max-height:80vh;border-radius:8px;display:block;">
+            <div style="color:var(--muted);text-align:center;margin-top:8px">${title}</div>
+          </div>`;
         overlay.addEventListener('click', ()=>overlay.remove());
         document.body.appendChild(overlay);
       }
 
       // initial keyboard focus
       gallery.querySelector('.card')?.setAttribute('tabindex', '0');
-
     })();
   </script>
 </body>

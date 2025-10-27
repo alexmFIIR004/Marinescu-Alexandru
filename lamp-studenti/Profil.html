@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <style>
+        :root {
+            --bg: #0f1722;
+            --card: #0b1220;
+            --accent: #60a5fa;
+            --muted: #9aa8bf;
+        }
+        
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, Segoe UI, Arial;
+            background: linear-gradient(180deg, #071023 0%, #081226 100%);
+            color: #e6eef8;
+            min-height: 100vh;
+            padding: 32px;
+        }
+        
+        .profile-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 32px;
+            background: var(--card);
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(2, 6, 23, 0.6);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .profile-pic-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+        }
+
+        .profile-info {
+            flex-grow: 1;
+        }
+
+        .edit-field {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            background: var(--card);
+            color: #e6eef8;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #4da6ff;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        h2, h3 {
+            color: #e6eef8;
+            margin-bottom: 16px;
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--accent);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            transition: background 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: #4da6ff;
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-pic-container">
+                <img src="images/default-profile.jpg" alt="Profile Picture" class="profile-pic" id="profilePic">
+                <label for="uploadPic" class="upload-btn">+</label>
+                <input type="file" id="uploadPic" hidden accept="image/*">
+            </div>
+            <div class="profile-info">
+                <h2>Profile Settings</h2>
+                <input type="text" class="edit-field" placeholder="Username" value="">
+                <input type="email" class="edit-field" placeholder="Email" value="">
+                <button class="btn">Save Changes</button>
+            </div>
+        </div>
+
+        <h3>My Gallery</h3>
+        <div class="gallery">
+       
+            <img src="images/sample1.jpg" alt="Gallery image" class="gallery-item">
+            <img src="images/sample2.jpg" alt="Gallery image" class="gallery-item">
+            <img src="images/sample3.jpg" alt="Gallery image" class="gallery-item">
+          
+        </div>
+    </div>
+
+    <script>
+  
+        function loadSavedProfilePic() {
+            const savedPic = localStorage.getItem('profilePic');
+            if (savedPic) {
+                document.getElementById('profilePic').src = savedPic;
+            }
+        }
+
+     
+        loadSavedProfilePic();
+
+        document.getElementById('uploadPic').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    // Actualizează imaginea în pagină
+                    document.getElementById('profilePic').src = imageData;
+                    // Salvează imaginea în localStorage
+                    localStorage.setItem('profilePic', imageData);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html></div>

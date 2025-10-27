@@ -19,20 +19,20 @@
 
     .gallery-outer{position:relative;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px}
     .gallery{
-      /* layout orizontal: fără wrap, scroll horizontal */
+      
       display:flex;
       flex-wrap:nowrap;
       gap:12px;
       align-items:stretch;
       max-height:60vh;
       overflow-x:auto;
-      overflow-y:hidden; /* elimină bara verticală */
+      overflow-y:hidden; 
       padding-right:12px;
       -webkit-overflow-scrolling:touch;
-      scrollbar-width:none; /* Firefox */
-      -ms-overflow-style:none; /* IE 10+ */
+      scrollbar-width:none; 
+      -ms-overflow-style:none;
     }
-    /* ascunde scrollbar-ul WebKit dacă vrei (opțional) */
+   
     .gallery::-webkit-scrollbar{height:8px; background:transparent}
     .gallery::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:8px}
 
@@ -42,27 +42,33 @@
     .meta{padding:8px 10px}
     .meta small{color:var(--muted);display:block}
 
-    /* right arrow */
-    .arrow-right{
-      position:absolute;right:12px;top:50%;transform:translateY(-50%);
+
+    .arrow{
+      position:absolute;top:50%;transform:translateY(-50%);
       width:56px;height:56px;border-radius:28px;display:flex;align-items:center;justify-content:center;
       background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.04);
       box-shadow:0 6px 20px rgba(8,12,20,0.6);cursor:pointer;backdrop-filter:blur(4px);
     }
-    .arrow-right:active{transform:translateY(-50%) scale(.98)}
-    .arrow-right svg{width:20px;height:20px;fill:var(--accent)}
+    .arrow-right{
+      right:12px;
+    }
+    .arrow-left{
+      left:12px;
+    }
+    .arrow:active{transform:translateY(-50%) scale(.98)}
+    .arrow svg{width:20px;height:20px;fill:var(--accent)}
 
-    /* small screens tweaks */
+
     @media (max-width:560px){
       .card img{height:110px}
       .arrow-right{width:48px;height:48px;right:8px}
       .card{flex:0 0 160px}
     }
 
-    /* hidden state for filtering */
+
     .hidden{display:none !important;}
 
-    /* subtle focus outline for accessibility */
+  
     .card:focus{outline:3px solid rgba(96,165,250,0.18)}
   </style>
 </head>
@@ -83,10 +89,14 @@
     </header>
 
     <div class="gallery-outer">
-      <div id="gallery" class="gallery" tabindex="0" aria-live="polite">
-        <!-- images: fiecare .card conține img + meta -->
-        <article class="card" data-category="natura" id="img1" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1018/600/400" alt="Peisaj montan">
+      <button id="prevBtn" class="arrow arrow-left" aria-label="Arată poza anterioară">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"/></svg>
+      </button>
+
+      <div id="gallery" class="gallery">
+    
+        <article class="card" data-category="natura" id="img1">
+          <img loading="lazy" src="peisajMunte.jpg" alt="Peisaj montan">
           <div class="meta"><strong>Peisaj montan</strong><small>Natură</small></div>
         </article>
 
@@ -96,12 +106,12 @@
         </article>
 
         <article class="card" data-category="portrete" id="img3" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1005/600/400" alt="Portret femeie">
+          <img loading="lazy" src="Portret1.jpg" alt="Portret">
           <div class="meta"><strong>Portret</strong><small>Portrete</small></div>
         </article>
 
         <article class="card" data-category="abstract" id="img4" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1025/600/400" alt="Abstract">
+          <img loading="lazy" src="Arte-Abstracta.jpg" alt="Abstract">
           <div class="meta"><strong>Compoziție abstractă</strong><small>Abstract</small></div>
         </article>
 
@@ -111,7 +121,7 @@
         </article>
 
         <article class="card" data-category="orase" id="img6" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1031/600/400" alt="Skyline">
+          <img loading="lazy" src="Skyline1.jpg" alt="Skyline">
           <div class="meta"><strong>Skyline modern</strong><small>Orașe</small></div>
         </article>
 
@@ -136,17 +146,17 @@
         </article>
 
         <article class="card" data-category="natura" id="img11" tabindex="0">
-          <img loading="lazy" src="https://picsum.photos/id/1012/600/400" alt="Pădure">
-          <div class="meta"><strong>Pădure liniștită</strong><small>Natură</small></div>
+          <img loading="lazy" src="curcubeu-2.jpg" alt="Curcubeu">
+          <div class="meta"><strong>Curcubeu</strong><small>Natură</small></div>
         </article>
       </div>
 
-      <button id="nextBtn" class="arrow-right" aria-label="Arată următoarea poză">
+      <button id="nextBtn" class="arrow arrow-right" aria-label="Arată următoarea poză">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
       </button>
     </div>
 
-    <p style="margin-top:10px;color:var(--muted)">Folosește dropdown-ul pentru a filtra pe categorii. Apasă săgeata din dreapta pentru a vedea următoarele imagini în galeria orizontal/scroll.</p>
+    <p style="margin-top:10px;color:var(--muted)">Folosește săgețile pentru a naviga prin galerie sau dropdown-ul pentru a filtra pe categorii.</p>
   </div>
 
   <script>
@@ -154,8 +164,9 @@
       const select = document.getElementById('category');
       const gallery = document.getElementById('gallery');
       const nextBtn = document.getElementById('nextBtn');
+      const prevBtn = document.getElementById('prevBtn');
 
-      // filter function
+
       function filter(cat){
         const cards = gallery.querySelectorAll('.card');
         cards.forEach(c=>{
@@ -166,45 +177,26 @@
 
       select.addEventListener('change', e=>{
         filter(e.target.value);
-        // after filtering, ensure first visible card is scrolled into view
+      
         const first = gallery.querySelector('.card:not(.hidden)');
         if(first) first.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'});
       });
 
-      // Arrow: show "next" visible card. It will find the currently most visible card and move to the next.
-      function scrollToNext(){
+  
+      function scrollGallery(direction) {
         const visible = Array.from(gallery.querySelectorAll('.card:not(.hidden)'));
-        if(visible.length===0) return;
+        if(visible.length === 0) return;
 
-        const gRect = gallery.getBoundingClientRect();
-        // find first card whose left edge is >= gallery left - small epsilon
-        let index = visible.findIndex(card=>{
-          const r = card.getBoundingClientRect();
-          return r.left >= gRect.left + 2;
+        const scrollAmount = gallery.offsetWidth * 0.8;
+        gallery.scrollBy({
+          left: scrollAmount * direction,
+          behavior: 'smooth'
         });
-        if(index === -1){
-          // if none found (all fully left), pick the first partially/fully visible from left
-          index = visible.findIndex(card=>{
-            const r = card.getBoundingClientRect();
-            return r.right > gRect.left + 2;
-          });
-        }
-        if(index === -1) index = 0;
-        const targetIndex = Math.min(index+1, visible.length-1);
-        visible[targetIndex].scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'});
-        visible[targetIndex].focus();
       }
 
-      nextBtn.addEventListener('click', scrollToNext);
-
-      // allow keyboard: Right arrow key triggers next
-      gallery.addEventListener('keydown', (e)=>{
-        if(e.key === 'ArrowRight'){
-          e.preventDefault(); scrollToNext();
-        }
-      });
-
-      // click on image to open in a simple lightbox
+      nextBtn.addEventListener('click', () => scrollGallery(1));
+      prevBtn.addEventListener('click', () => scrollGallery(-1));
+     
       gallery.addEventListener('click', (e)=>{
         const card = e.target.closest('.card');
         if(!card) return;
@@ -224,9 +216,6 @@
         overlay.addEventListener('click', ()=>overlay.remove());
         document.body.appendChild(overlay);
       }
-
-      // initial keyboard focus
-      gallery.querySelector('.card')?.setAttribute('tabindex', '0');
     })();
   </script>
 </body>

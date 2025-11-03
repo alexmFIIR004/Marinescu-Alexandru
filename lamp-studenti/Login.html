@@ -4,74 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Login</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    :root{
-      --bg:#0f1722; --card:#0b1220; --accent:#60a5fa; --muted:#9aa8bf;
-    }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, Segoe UI, Arial;
-      background: linear-gradient(180deg, #071023 0%, #081226 100%);
-      color: #e6eef8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 32px;
-    }
-    .login-container {
-      background: var(--card);
-      border-radius: 14px;
-      padding: 32px;
-      box-shadow: 0 4px 18px rgba(2, 6, 23, 0.6);
-      width: 100%;
-      max-width: 400px;
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--muted);
-    }
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      border-radius: 10px;
-      background: var(--card);
-      color: #e6eef8;
-    }
-    input[type="checkbox"] {
-      margin-right: 8px;
-    }
-    .remember-me {
-      display: flex;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: var(--accent);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #4da6ff;
-    }
-  </style>
+  <link rel="stylesheet" href="Login.css">
 </head>
 <body>
+  <div id="top"></div>
   <div class="login-container">
     <h1>Autentificare</h1>
     <form>
@@ -89,5 +25,20 @@
       <button type="submit">Conectare</button>
     </form>
   </div>
+
+  <a id="backToTop" class="back-to-top" href="#top">⬆️ Mergi sus</a>
+
+  <script>
+    (function(){
+
+      const backEl = document.getElementById('backToTop');
+      if(backEl){
+        backEl.addEventListener('click', function(e){
+          e.preventDefault();
+          window.scrollTo({top:0, behavior:'smooth'});
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

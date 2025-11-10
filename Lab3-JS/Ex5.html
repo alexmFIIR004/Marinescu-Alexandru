@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8">
+<body>
+<script>
+
+var a = 4, b = 4, c = 5;
+
+
+function potFormaTriunghi(x,y,z){
+  return x + y > z && x + z > y && y + z > x;
+}
+
+if (!potFormaTriunghi(a,b,c)) {
+  console.log("Laturile nu pot forma un triunghi.");
+} else {
+  if (a===b && b===c) {
+    console.log("Triunghi echilateral");
+  } else if (a===b || a===c || b===c) {
+    console.log("Triunghi isoscel");
+  } else {
+    console.log("Triunghi oarecare");
+  }
+}
+</script>
+</body>
+</html>

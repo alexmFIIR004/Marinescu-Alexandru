@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" href="Profil.css">
+</head>
+<body>
+    <div id="top"></div>
+   
+    <div class="profile-container">
+        <div class="profile-header">
+            <div class="profile-pic-container">
+                <img src="images/default-profile.jpg" alt="Profile Picture" class="profile-pic" id="profilePic">
+                <label for="uploadPic" class="upload-btn">+</label>
+                <input type="file" id="uploadPic" hidden accept="image/*">
+            </div>
+            <div class="profile-info">
+                <h2>Profile Settings</h2>
+                <input type="text" class="edit-field" placeholder="Username" value="">
+                <input type="email" class="edit-field" placeholder="Email" value="">
+                <button class="btn">Save Changes</button>
+            </div>
+        </div>
+
+        <h3>My Gallery</h3>
+        <div class="gallery" id="gallery">
+            <img src="images/sample1.jpg" alt="Gallery image" class="gallery-item">
+            <img src="images/sample2.jpg" alt="Gallery image" class="gallery-item">
+            <img src="images/sample3.jpg" alt="Gallery image" class="gallery-item">
+        </div>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <label for="uploadGallery" class="btn">Upload Photo</label>
+            <input type="file" id="uploadGallery" hidden accept="image/*" multiple>
+        </div>
+    </div>
+
+    <script>
+
+        function loadSavedProfilePic() {
+            const savedPic = localStorage.getItem('profilePic');
+            if (savedPic) {
+                document.getElementById('profilePic').src = savedPic;
+            }
+        }
+
+        loadSavedProfilePic();
+
+        document.getElementById('uploadPic').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    document.getElementById('profilePic').src = imageData;
+                    localStorage.setItem('profilePic', imageData);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+       
+        const galleryInput = document.getElementById('uploadGallery');
+        const galleryContainer = document.querySelector('.gallery');
+
+       function renderGallery(images) {
+    galleryContainer.innerHTML = '';
+    images.forEach((src, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'gallery-item-wrapper';
+
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'gallery-item';
+        img.title = "Click dreapta pentru a șterge";
+
+        img.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            if (confirm('Ștergi această imagine din galerie?')) {
+                images.splice(index, 1);
+                localStorage.setItem('galleryImages', JSON.stringify(images));
+                renderGallery(images);
+            }
+        });
+
+        wrapper.appendChild(img);
+        galleryContainer.appendChild(wrapper);
+    });
+}
+
+
+        function loadSavedGallery() {
+            const savedGallery = JSON.parse(localStorage.getItem('galleryImages')) || [];
+            renderGallery(savedGallery);
+        }
+
+        loadSavedGallery();
+
+        galleryInput.addEventListener('change', function(event) {
+            const files = Array.from(event.target.files);
+            const savedGallery = JSON.parse(localStorage.getItem('galleryImages')) || [];
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    savedGallery.push(imageData);
+                    localStorage.setItem('galleryImages', JSON.stringify(savedGallery));
+                    renderGallery(savedGallery);
+                }
+                reader.readAsDataURL(file);
+            });
+        });
+
+     
+    </script>
+
+  
+</body>
+</html>

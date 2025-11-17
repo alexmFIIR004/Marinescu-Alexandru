@@ -13,14 +13,6 @@
       <h1>Galerie</h1>
     </header>
 
-    <nav class="site-nav" aria-label="Main navigation">
-      <ul>
-        <li><a href="#">Acasă</a></li>
-        <li><a href="#">Galerie</a></li>
-        <li><a href="#">Despre</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
 
     <main class="site-main">
       <div class="gallery-outer">
@@ -104,6 +96,22 @@
         </select>
       </div>
       <p class="help-text">Selectează o categorie pentru a filtra galeria.</p>
+      
+      <div class="image-counter">
+        <span id="counterText">Afișând <strong id="visibleCount">11</strong> din <strong id="totalCount">11</strong> imagini</span>
+      </div>
+      
+      <div class="view-toggle">
+        <label class="category-label">Mod vizualizare</label>
+        <button id="toggleViewBtn" class="toggle-btn" aria-label="Schimbă modul de vizualizare">
+          <svg id="gridIcon" viewBox="0 0 24 24" class="view-icon active">
+            <path d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/>
+          </svg>
+          <svg id="listIcon" viewBox="0 0 24 24" class="view-icon">
+            <path d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/>
+          </svg>
+        </button>
+      </div>
     </aside>
 
     <footer class="site-footer">
@@ -119,7 +127,21 @@
       const gallery = document.getElementById('gallery');
       const nextBtn = document.getElementById('nextBtn');
       const prevBtn = document.getElementById('prevBtn');
+      const toggleViewBtn = document.getElementById('toggleViewBtn');
+      const visibleCountEl = document.getElementById('visibleCount');
+      const totalCountEl = document.getElementById('totalCount');
+      const gridIcon = document.getElementById('gridIcon');
+      const listIcon = document.getElementById('listIcon');
 
+
+      const totalCards = gallery.querySelectorAll('.card').length;
+      totalCountEl.textContent = totalCards;
+
+
+      function updateCounter(){
+        const visibleCards = gallery.querySelectorAll('.card:not(.hidden)').length;
+        visibleCountEl.textContent = visibleCards;
+      }
 
       function filter(cat){
         const cards = gallery.querySelectorAll('.card');
@@ -127,6 +149,7 @@
           if(cat === 'all' || c.dataset.category === cat) c.classList.remove('hidden');
           else c.classList.add('hidden');
         });
+        updateCounter(); 
       }
 
       select.addEventListener('change', e=>{
@@ -136,6 +159,16 @@
         if(first) first.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'});
       });
 
+
+      let isGridView = true;
+      toggleViewBtn.addEventListener('click', () => {
+        isGridView = !isGridView;
+        gallery.classList.toggle('list-view', !isGridView);
+        
+
+        gridIcon.classList.toggle('active', isGridView);
+        listIcon.classList.toggle('active', !isGridView);
+      });
   
       function scrollGallery(direction) {
         const visible = Array.from(gallery.querySelectorAll('.card:not(.hidden)'));
@@ -161,11 +194,11 @@
 
       function openLightbox(src, title){
         const overlay = document.createElement('div');
-        overlay.style.position='fixed';overlay.style.inset=0;overlay.style.background='rgba(3,7,14,0.8)';overlay.style.display='flex';overlay.style.alignItems='center';overlay.style.justifyContent='center';overlay.style.zIndex=9999;
+        overlay.className = 'lightbox-overlay';
         overlay.innerHTML = `
-          <div style="max-width:90vw;max-height:90vh;padding:10px;">
-            <img src="${src}" style="max-width:100%;max-height:80vh;border-radius:8px;display:block;">
-            <div style="color:var(--muted);text-align:center;margin-top:8px">${title}</div>
+          <div class="lightbox-content">
+            <img src="${src}" alt="${title}">
+            <div class="lightbox-title">${title}</div>
           </div>`;
         overlay.addEventListener('click', ()=>overlay.remove());
         document.body.appendChild(overlay);
